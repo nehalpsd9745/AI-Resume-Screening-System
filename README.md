@@ -1,39 +1,85 @@
 # AI-Resume-Screening-ystem
+# Resume-Analyser
 
-A local, privacy-focused machine learning system for resume analysis. Convert resumes to text, train a classifier, predict job categories, and generate improvement advice — all offline on your machine.
-
----
-
-## Overview
-
-Resume-Analyser helps in:
-- Converting resumes (CSV/PDF) into plain text
-- Classifying resumes into job categories using ML
-- Providing structured resume improvement advice
-- Allowing full offline usage for privacy
+Local, private, and offline resume classification + improvement analysis using Machine Learning.
 
 ---
 
-## Features
+## Status & Tech
 
-- Resume-to-text extraction
-- TF-IDF + Logistic Regression baseline model
-- Optional sentence-transformer embeddings for semantic understanding
-- Predict job roles from resume text
-- Advice module to assess resume quality (MVP)
-- Fully CLI-driven and configurable
+| Category | Details |
+|---------|---------|
+| Language | Python 3.8+ |
+| ML Model | TF-IDF + Logistic Regression (baseline) |
+| Optional Embeddings | Sentence-Transformers (MiniLM) |
+| Interface | Command-line utilities |
+| Privacy | 100% offline processing |
 
 ---
 
-## Installation
+## Why this Project?
 
-### 1. Create and activate a virtual environment
+Most resume analyzers send data to cloud servers.  
+This tool avoids that:
+
+- No uploads
+- No tracking
+- Full control over your data
+- Easy model experimentation for research and learning
+
+---
+
+## Feature Summary
+
+| Feature | Description |
+|--------|-------------|
+| Resume Conversion | CSV + PDF → Plain text |
+| Classification | Predict job role/category |
+| Advice System | Basic quality checks & suggestions |
+| Configurable | Settings via `config.yaml` |
+| Extendable | Add new ML models easily |
+
+---
+
+## Quick Workflow (Visual Guide)
+
+```
+          +--------------+
+          |  CSV / PDF   |
+          +------+-------+
+                 |
+                 v
+        +--------+---------+
+        | Convert to Text  |
+        +--------+---------+
+                 |
+                 v
+      +----------+-----------+
+      | Train ML Classifier  |
+      +----------+-----------+
+                 |
+                 v
+      +----------+-----------+
+      | Predict Resume Role  |
+      +----------+-----------+
+                 |
+                 v
+      +----------+-----------+
+      | Generate Resume Tips |
+      +----------------------+
+```
+
+---
+
+## Setup
+
+### Create virtual environment
 ```bash
 python -m venv .venv
 . .venv/Scripts/activate  # Windows PowerShell: .venv\Scripts\Activate.ps1
 ```
 
-### 2. Install dependencies
+### Install dependencies
 ```bash
 pip install -r requirements.txt
 pip install numpy==1.26.0 --force-reinstall
@@ -41,37 +87,32 @@ pip install numpy==1.26.0 --force-reinstall
 
 ---
 
-## Dataset Setup
+## Data Structure (Recommended)
 
-Recommended structure:
 ```
 data/
   raw/
-    UpdatedResumeDataSet.csv       # Training source
+    UpdatedResumeDataSet.csv
   test/
-    sample_resume.pdf              # Test resumes (PDF)
+    sample_resume.pdf
   processed/
-    converted/                     # Output after text extraction
+    converted/
 ```
-
-Example datasets (Kaggle):
-- UpdatedResumeDataSet.csv
-- Resume Dataset (PDF)
 
 ---
 
-## Usage
+## How to Use
 
-### 1. Convert Data to Text
+### 1) Convert resumes to text
 
-CSV to text:
+CSV → text files
 ```bash
 python src/convert_dataset.py \
   --csv data/raw/UpdatedResumeDataSet.csv \
   --outdir data/processed/converted
 ```
 
-PDF directory to text:
+PDF directory → text files
 ```bash
 python src/convert_test_data.py \
   --pdfdir data/test \
@@ -80,47 +121,47 @@ python src/convert_test_data.py \
 
 ---
 
-### 2. Train the ML Classifier
+### 2) Train ML model
 ```bash
 python src/train_classifier.py
 ```
 
-This saves:
-- Trained model
-- TF-IDF vectorizer (or embeddings)
-
-inside `models/`
+Outputs saved in:  
+```
+models/
+```
 
 ---
 
-### 3. Predict Job Category
+### 3) Predict job category from resume text
 ```bash
 python src/predict.py --input <path_to_text_file>
 ```
 
-Example output: Data Science, HR, Cybersecurity, etc.
+Example output:  
+```
+Predicted Category: Data Science
+```
 
 ---
 
-### 4. Generate Resume Advice
+### 4) Generate resume improvement advice (MVP)
 ```bash
 python src/advice.py --input <path_to_text_file>
 ```
 
-Checks include:
+Advice checks include:
 - Resume length
-- Missing common sections (Skills, Projects, Education)
-- Technical keyword presence
-- Soft skill mentions
-- Career path alignment
-
-This module will improve in future versions.
+- Missing essential sections
+- Missing technical keywords
+- Soft skills detection
+- Role fit evaluation
 
 ---
 
-## Configuration
+## Config
+Edit `config.yaml`:
 
-Modify `config.yaml` to adjust model and advice settings:
 ```yaml
 model:
   embedding: all-MiniLM-L6-v2
@@ -130,7 +171,7 @@ model:
 
 ---
 
-## Project Structure
+## Project Tree
 
 ```
 src/
@@ -143,38 +184,24 @@ models/
 data/
 assets/
 config.yaml
-README.md
 requirements.txt
+README.md
 ```
 
 ---
 
 ## Roadmap
 
-Future improvements planned:
-- Additional ML models (SVM, RandomForest, XGBoost, Transformers)
-- Evaluation framework with metrics and visualization
-- Enhanced resume quality scoring
-- Streamlined CLI naming conventions
-- Optional web interface for live analysis
+- More ML models (SVM, XGBoost, Transformers)
+- Detailed evaluation reports
+- Better scoring / ranking system
+- Resume parsing improvements
+- Optional Web UI (Streamlit)
+- Multi-label job category support
 
 ---
 
-## Contributing
+## Credits
 
-Contributions are welcome.
-Submit a pull request or open an issue for discussion.
-
----
-
-## License
-
-This is an open-source project.
-The license file (if provided) applies.
-
----
-
-## Acknowledgements
-
-Datasets sourced from publicly available Kaggle resume datasets.
+Uses public Kaggle resume datasets for experimentation.
 
