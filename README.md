@@ -1,58 +1,70 @@
-# Resume-Analyser
+# AI-Resume-Screening-ystem
 
-Local, privacy-friendly resume analysis and classification using traditional ML and modern embeddings. Convert resumes, train a classifier, predict categories, and generate actionable advice — all on your machine.
+A local, privacy-focused machine learning system for resume analysis. Convert resumes to text, train a classifier, predict job categories, and generate improvement advice — all offline on your machine.
 
+---
+
+## Overview
+
+Resume-Analyser helps in:
+- Converting resumes (CSV/PDF) into plain text
+- Classifying resumes into job categories using ML
+- Providing structured resume improvement advice
+- Allowing full offline usage for privacy
+
+---
 
 ## Features
 
-- Resume-to-text conversion for CSV and PDF datasets
-- TF‑IDF + Logistic Regression baseline classifier
-- Optional sentence-transformer embeddings for richer features
-- Simple CLI scripts for converting, training, predicting, and advice
-- Configurable via `config.yaml`
+- Resume-to-text extraction
+- TF-IDF + Logistic Regression baseline model
+- Optional sentence-transformer embeddings for semantic understanding
+- Predict job roles from resume text
+- Advice module to assess resume quality (MVP)
+- Fully CLI-driven and configurable
 
-## Quickstart
+---
 
-1. Create and activate a virtual environment (recommended).
+## Installation
 
+### 1. Create and activate a virtual environment
 ```bash
 python -m venv .venv
 . .venv/Scripts/activate  # Windows PowerShell: .venv\Scripts\Activate.ps1
 ```
 
-2. Install dependencies.
-
+### 2. Install dependencies
 ```bash
 pip install -r requirements.txt
-# Temporary compatibility pin
 pip install numpy==1.26.0 --force-reinstall
 ```
 
-3. Prepare data (see Data section) and run the pipeline below.
+---
 
-## Data
+## Dataset Setup
 
-- Training data: [Kaggle: UpdatedResumeDataSet.csv](https://www.kaggle.com/datasets/gauravduttakiit/resume-dataset?select=UpdatedResumeDataSet.csv)
-- Test data: [Kaggle: Resume Dataset](https://www.kaggle.com/datasets/snehaanbhawal/resume-dataset)
-
-Recommended layout:
-
+Recommended structure:
 ```
 data/
   raw/
-    UpdatedResumeDataSet.csv
+    UpdatedResumeDataSet.csv       # Training source
   test/
-    <your_pdf_files>.pdf
+    sample_resume.pdf              # Test resumes (PDF)
   processed/
-    converted/
+    converted/                     # Output after text extraction
 ```
+
+Example datasets (Kaggle):
+- UpdatedResumeDataSet.csv
+- Resume Dataset (PDF)
+
+---
 
 ## Usage
 
-### 1) Convert resume data to plain text
+### 1. Convert Data to Text
 
 CSV to text:
-
 ```bash
 python src/convert_dataset.py \
   --csv data/raw/UpdatedResumeDataSet.csv \
@@ -60,49 +72,55 @@ python src/convert_dataset.py \
 ```
 
 PDF directory to text:
-
 ```bash
 python src/convert_test_data.py \
   --pdfdir data/test \
   --outdir data/processed/converted_test
 ```
 
-> The CLI naming may be refined in future iterations.
+---
 
-### 2) Train the classifier
-
+### 2. Train the ML Classifier
 ```bash
 python src/train_classifier.py
 ```
 
-> Additional algorithms will be experimented with in future updates.
+This saves:
+- Trained model
+- TF-IDF vectorizer (or embeddings)
 
-### 3) Predict a category for a processed resume
+inside `models/`
 
+---
+
+### 3. Predict Job Category
 ```bash
 python src/predict.py --input <path_to_text_file>
 ```
 
-### 4) Generate resume advice (MVP)
+Example output: Data Science, HR, Cybersecurity, etc.
 
+---
+
+### 4. Generate Resume Advice
 ```bash
 python src/advice.py --input <path_to_text_file>
 ```
 
-The current advice checks for:
+Checks include:
+- Resume length
+- Missing common sections (Skills, Projects, Education)
+- Technical keyword presence
+- Soft skill mentions
+- Career path alignment
 
-1. **Length** — is the resume too short?
-2. **Missing keywords** — e.g., "Python", "machine learning"
-3. **Missing sections** — Experience, Projects, Education, Skills
-4. **Soft skills** — mentions of communication, leadership, etc.
-5. **Role match** — proximity to a target career path (e.g., Data Science)
+This module will improve in future versions.
 
-> This is an early MVP and will evolve.
+---
 
 ## Configuration
 
-Tune behavior via `config.yaml`:
-
+Modify `config.yaml` to adjust model and advice settings:
 ```yaml
 model:
   embedding: all-MiniLM-L6-v2
@@ -110,29 +128,53 @@ model:
   advice_threshold: 0.5
 ```
 
+---
+
 ## Project Structure
 
 ```
 src/
-  convert_dataset.py        # CSV → text conversion
-  convert_test_data.py      # PDF dir → text conversion
-  train_classifier.py       # Train baseline classifier
-  predict.py                # Predict class for a resume text
-  advice.py                 # Generate heuristic advice (MVP)
-models/                     # Saved models/artifacts
-data/                       # Raw/test/processed data
-assets/                     # Plots and images
+  convert_dataset.py
+  convert_test_data.py
+  train_classifier.py
+  predict.py
+  advice.py
+models/
+data/
+assets/
+config.yaml
+README.md
+requirements.txt
 ```
+
+---
 
 ## Roadmap
 
-- Experiment with additional classifiers (SVM, RandomForest, XGBoost)
-- Improve advice heuristics and scoring
-- Add evaluation on held-out test sets and reporting
-- Streamline CLI and naming for consistency
-- Optional lightweight web UI
+Future improvements planned:
+- Additional ML models (SVM, RandomForest, XGBoost, Transformers)
+- Evaluation framework with metrics and visualization
+- Enhanced resume quality scoring
+- Streamlined CLI naming conventions
+- Optional web interface for live analysis
+
+---
 
 ## Contributing
 
-Contributions, issues, and feature requests are welcome! Feel free to open a PR or issue.
+Contributions are welcome.
+Submit a pull request or open an issue for discussion.
+
+---
+
+## License
+
+This is an open-source project.
+The license file (if provided) applies.
+
+---
+
+## Acknowledgements
+
+Datasets sourced from publicly available Kaggle resume datasets.
 
