@@ -75,9 +75,6 @@ python src/convert_test_data.py \
 python src/train_classifier.py
 ```
 
-Example output plot:
-![./assets/Logistic_Regression_Test.png](./assets/Logistic_Regression_Test.png)
-
 > Additional algorithms will be experimented with in future updates.
 
 ### 3) Predict a category for a processed resume
